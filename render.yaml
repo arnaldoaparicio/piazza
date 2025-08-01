@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: piazza-web
+    name: piazza
     env: ruby
     plan: free
     numInstances: 1
