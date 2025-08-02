@@ -23,5 +23,13 @@ RSpec.describe User, type: :model do
       user.email = 'johndoe@example.com'
       expect(user.valid?).to eq(true)
     end
+
+    it 'requires a unique email' do
+      existing_user = User.create(name: 'John', email: 'jd@example.com')
+      expect(existing_user.persisted?).to eq(true)
+
+      user = User.new(name: 'Jon', email: 'jd@example.com')
+      expect(user.valid?).to eq(false)
+    end
   end
 end
