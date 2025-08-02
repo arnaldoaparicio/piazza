@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
   context 'creating a new User' do
     it 'requires a name' do
       user = User.new(name: '', email: 'johndoe@example.com')
-      
+
       expect(user.valid?).to eq(false)
 
       user.name = 'John'
@@ -16,6 +16,12 @@ RSpec.describe User, type: :model do
 
       user = User.new(name: 'John', email: '')
       expect(user.valid?).to eq(false)
+
+      user.email = 'invalid'
+      expect(user.valid?).to eq(false)
+
+      user.email = 'johndoe@example.com'
+      expect(user.valid?).to eq(true)
     end
   end
 end
