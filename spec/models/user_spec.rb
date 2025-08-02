@@ -1,0 +1,21 @@
+require 'rails_helper'
+
+RSpec.describe User, type: :model do
+  context 'creating a new User' do
+    it 'requires a name' do
+      user = User.new(name: '', email: 'johndoe@example.com')
+      
+      expect(user.valid?).to eq(false)
+
+      user.name = 'John'
+      expect(user.valid?).to eq(true)
+    end
+
+    it 'requires a valid email' do
+      user = User.new(name: '', email: 'johndoe@example.com')
+
+      user = User.new(name: 'John', email: '')
+      expect(user.valid?).to eq(false)
+    end
+  end
+end
