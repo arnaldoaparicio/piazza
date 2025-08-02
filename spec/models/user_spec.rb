@@ -19,7 +19,6 @@ RSpec.describe User, type: :model do
     it 'requires a valid email' do
       user = User.new(name: '', email: 'johndoe@example.com')
 
-      user = User.new(name: 'John', email: '')
       expect(user.valid?).to eq(false)
 
       user.email = 'invalid'
