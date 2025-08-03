@@ -4,7 +4,11 @@ RSpec.describe User, type: :model do
   describe 'validations' do
     it { should validate_presence_of(:name) }
     it { should validate_uniqueness_of(:email).case_insensitive }
+  end
 
+  describe 'relationships' do
+    it { should have_many(:memberships) }
+    it { should have_many(:organizations).through(:memberships) }
   end
   context 'creating a new User' do
     it 'requires a name' do
@@ -17,7 +21,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'requires a valid email' do
-      user = User.new(name: '', email: 'johndoe@example.com')
+      user = User.new(name: 'John', email: '')
 
       expect(user.valid?).to eq(false)
 
