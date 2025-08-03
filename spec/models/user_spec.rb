@@ -39,5 +39,12 @@ RSpec.describe User, type: :model do
       user = User.new(name: 'Jon', email: 'jd@example.com')
       expect(user.valid?).to eq(false)
     end
+
+    it 'is stripped of spaces in name and email before saving' do
+      user = User.create(name: ' John ', email: ' johndoe@example.com ')
+
+      expect(user.name).to eq('John')
+      expect(user.email).to eq('johndoe@example.com')
+    end
   end
 end
