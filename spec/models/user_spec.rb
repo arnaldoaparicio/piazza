@@ -12,7 +12,7 @@ RSpec.describe User, type: :model do
   end
   context 'creating a new User' do
     it 'requires a name' do
-      user = User.new(name: '', email: 'johndoe@example.com')
+      user = User.new(name: '', email: 'johndoe@example.com', password: 'password')
 
       expect(user.valid?).to eq(false)
 
@@ -21,7 +21,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'requires a valid email' do
-      user = User.new(name: 'John', email: '')
+      user = User.new(name: 'John', email: '', password: 'password')
 
       expect(user.valid?).to eq(false)
 
@@ -33,10 +33,10 @@ RSpec.describe User, type: :model do
     end
 
     it 'requires a unique email' do
-      existing_user = User.create(name: 'John', email: 'jd@example.com')
+      existing_user = User.create(name: 'John', email: 'jd@example.com', password: 'password')
       expect(existing_user.persisted?).to eq(true)
 
-      user = User.new(name: 'Jon', email: 'jd@example.com')
+      user = User.new(name: 'Jon', email: 'jd@example.com', password: 'password')
       expect(user.valid?).to eq(false)
     end
 
@@ -52,11 +52,11 @@ RSpec.describe User, type: :model do
       expect(user.valid?).to eq(false)
 
       user.password = 'password'
-      expect(user.valid?).to eq(false)
+      expect(user.valid?).to eq(true)
 
       max_length = ActiveModel::SecurePassword::MAX_PASSWORD_LENGTH_ALLOWED
       user.password = 'a' * (max_length + 1)
-      expect(user.valid?).to eq(true)
+      expect(user.valid?).to_not eq(true)
     end
   end
 end
