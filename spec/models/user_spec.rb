@@ -46,5 +46,17 @@ RSpec.describe User, type: :model do
       expect(user.name).to eq('John')
       expect(user.email).to eq('johndoe@example.com')
     end
+
+    it "should have a password length between 8 and ActiveModel's maximum" do
+      user = User.new(name: 'Jane', email: 'janedoe@example.com', password: '')
+      expect(user.valid?).to eq(false)
+
+      user.password = 'password'
+      expect(user.valid?).to eq(false)
+
+      max_length = ActiveModel::SecurePassword::MAX_PASSWORD_LENGTH_ALLOWED
+      user.password = 'a' * (max_length + 1)
+      expect(user.valid?).to eq(true)
+    end
   end
 end
