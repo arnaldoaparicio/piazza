@@ -8,6 +8,7 @@ class UsersController < ApplicationController
 
     if @user.save
       @organization = Organization.create(members: @user)
+      # TODO: Log in user...
 
       redirect_to root_path,
         status: :see_other,
@@ -15,5 +16,11 @@ class UsersController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password)
   end
 end
