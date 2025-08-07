@@ -27,4 +27,14 @@ RSpec.describe "users/new.html.erb", type: :feature do
 
     expect(page).to have_current_path('/sign_up')
   end
+
+  it 'unsuccessfully creates a user due to password being too short' do
+    visit '/sign_up'
+
+    fill_in 'Name', with: 'Johnny'
+    fill_in 'Email', with: 'johnny@email.com'
+    fill_in 'Password', with: '123'
+
+    expect(page).to have_current_path('/sign_up')
+  end
 end
