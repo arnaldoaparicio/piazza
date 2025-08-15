@@ -37,4 +37,18 @@ RSpec.describe "users/new.html.erb", type: :feature do
 
     expect(page).to have_current_path('/sign_up')
   end
+
+  it 'show green flash message after successful user creation' do
+    visit '/sign_up'
+
+    fill_in 'Name', with: 'John'
+    fill_in 'Email', with: 'johndoe@example.com'
+    fill_in 'Password', with: 'password'
+
+    click_button 'Sign up!'
+
+    expect(page).to have_current_path(root_path)
+    expect(html).to have_selector('div', class: 'notification is-success')
+    expect(page).to have_content(I18n.t("users.create.welcome", name: 'John'))
+  end
 end
