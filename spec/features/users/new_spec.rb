@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "users/new.html.erb", type: :feature do
+RSpec.describe 'users/new.html.erb', type: :feature do
   it 'fills out and successfully submits form and redirect to root' do
     visit '/sign_up'
 
@@ -36,5 +36,33 @@ RSpec.describe "users/new.html.erb", type: :feature do
     fill_in 'Password', with: '123'
 
     expect(page).to have_current_path('/sign_up')
+  end
+
+  it 'show green flash message after successful user creation' do
+    visit '/sign_up'
+
+    fill_in 'Name', with: 'John'
+    fill_in 'Email', with: 'johndoe@example.com'
+    fill_in 'Password', with: 'password'
+
+    click_button 'Sign up!'
+
+    expect(page).to have_current_path(root_path)
+    expect(html).to have_selector('div', class: 'notification is-success')
+    expect(page).to have_content(I18n.t('users.create.welcome', name: 'John'))
+  end
+
+  it 'shows error message after unsuccessful user creation' do
+    visit '/sign_up'
+
+    fill_in 'Name', with: 'John'
+    fill_in 'Email', with: 'johndoe@example.com'
+    fill_in 'Password', with: 'pass'
+
+    click_button 'Sign up!'
+
+    expect(page).to_not have_current_path(root_path)
+    expect(html).to have_selector('p', class: 'is-danger')
+    expect(page).to have_content(I18n.t('activerecord.errors.models.user.attributes.password.too_short'))
   end
 end
