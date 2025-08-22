@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AppSession, type: :model do
   fixtures :users
-  before(:each) do
+  setup do
     @user = users(:jerry)
   end
 
@@ -11,6 +11,6 @@ RSpec.describe AppSession, type: :model do
 
     expect(app_session.persisted?).to eq(true)
     expect(app_session.token_digest).to_not eq(nil)
-    binding.pry
+    expect(app_session.authenticate_token(app_session.token).valid?).to eq(true) 
   end
 end
