@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_many :organizations, through: :memberships
+  has_many :app_sessions
 
   before_validation :strip_extraneous_spaces
 
