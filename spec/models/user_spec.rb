@@ -65,5 +65,11 @@ RSpec.describe User, type: :model do
       expect(app_session).to_not eq(nil)
       expect(app_session.token).to_not eq(nil)
     end
+
+    it 'cannot create a session with email and incorrect password' do
+      app_session = User.create_app_session(email: 'jerry@example.com', password: 'WRONG')
+
+      expect(app_session).to eq(nil)
+    end
   end
 end
