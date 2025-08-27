@@ -10,6 +10,7 @@ RSpec.describe User, type: :model do
     it { should have_many(:memberships) }
     it { should have_many(:organizations).through(:memberships) }
   end
+
   context 'creating a new User' do
     it 'requires a name' do
       user = User.new(name: '', email: 'johndoe@example.com', password: 'password')
@@ -58,7 +59,9 @@ RSpec.describe User, type: :model do
       user.password = 'a' * (max_length + 1)
       expect(user.valid?).to_not eq(true)
     end
+  end
 
+  context 'logging in as a User' do
     it 'can create a session with email and correct password' do
       app_session = User.create_app_session(email: 'jerry@example.com', password: 'password')
 
@@ -68,6 +71,12 @@ RSpec.describe User, type: :model do
 
     it 'cannot create a session with email and incorrect password' do
       app_session = User.create_app_session(email: 'jerry@example.com', password: 'WRONG')
+
+      expect(app_session).to eq(nil)
+    end
+
+    it 'creates a session with non existent email and returns nil' do
+      app_session = User.create_app_session(email: 'whoami@example.com', password: 'WRONG')
 
       expect(app_session).to eq(nil)
     end
