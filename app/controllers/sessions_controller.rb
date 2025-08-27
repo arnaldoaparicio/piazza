@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   def create
     @app_session = User.create_app_session(email: login_params[:email], password: login_params[:password])
 
-    if @app_sessions
+    if @app_session
       # TODO: Store details in cookie
 
       flash[:success] = t('.success')
