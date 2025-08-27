@@ -17,4 +17,15 @@ RSpec.describe SessionsController, type: :controller do
 
     expect(response).to redirect_to(root_path)
   end
+
+  it 'renders error for login with incorrect credentials' do
+    post :create, params: {
+      user: {
+        email: 'wrong@example.com',
+        password: 'password'
+      }
+    }
+
+   expect(flash[:danger]).to eq(I18n.t('sessions.create.incorrect_details'))
+  end
 end
