@@ -7,10 +7,18 @@ class SessionsController < ApplicationController
 
     if @app_sessions
       # TODO: Store details in cookie
-      
+
       flash[:success] = t('.success')
       redirect_to root_path, status: :see_other
     else
+      flash.now[:danger] = t('.incorrect_details')
+      render :new, status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def login_params
+    @login_params ||= params.require(:user).permit(:email, :password)
   end
 end
