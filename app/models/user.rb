@@ -15,6 +15,12 @@ class User < ApplicationRecord
     presence: true,
     length: { minimum: 8 }
 
+  def self.create_app_session(email:, password:)
+    return nil unless user = User.find_by(email: email.downcase)
+
+    user.app_sessions.create if user.authenticate(password)
+  end
+
   private
 
   def strip_extraneous_spaces
