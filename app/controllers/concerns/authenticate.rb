@@ -1,6 +1,13 @@
 module Authenticate
   extend ActiveSupport::Concern
 
+  include do
+    before_action :authenticate
+    before_action :require_login, unless: :logged_in?
+
+    helper_method :logged_in?
+  end
+
   protected
 
   def log_in(app_session)
