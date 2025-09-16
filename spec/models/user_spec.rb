@@ -80,5 +80,11 @@ RSpec.describe User, type: :model do
 
       expect(app_session).to eq(nil)
     end
+
+    it 'can authenticate with a valid session id and token' do
+      @user = users(:jerry)
+
+      expect(@app_session).to eq(@user.authenticate_app_session(@app_session.id, @app_session.token))
+    end
   end
 end
