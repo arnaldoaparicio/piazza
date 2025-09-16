@@ -12,7 +12,7 @@ RSpec.describe UsersController, type: :controller do
         password: 'password'
       }
     }
-    end.to change { User.count }.from(0).to(1).and change { Organization.count }.from(0).to(1)
+    end.to change { User.count }.from(4).to(5).and change { Organization.count }.from(0).to(1)
 
     expect(response).to redirect_to(root_path)
   end
