@@ -84,7 +84,15 @@ RSpec.describe User, type: :model do
     it 'can authenticate with a valid session id and token' do
       @user = users(:jerry)
 
+      @app_session = @user.app_sessions.create
+
       expect(@app_session).to eq(@user.authenticate_app_session(@app_session.id, @app_session.token))
+    end
+
+    it 'trys to authenticate with a token that does not exist and returns false' do
+      @user = users(:jerry)
+
+      expect(@user.autheticate_app_session(50, 'token')).to eq(nil)
     end
   end
 end
