@@ -10,10 +10,11 @@ RSpec.describe 'users/new.html.erb', type: :feature do
     fill_in 'Name', with: 'Johnny'
     fill_in 'Email', with: 'johnstamos@example.com'
     fill_in 'Password', with: '123abcdef'
+    fill_in 'Password Confirmation', with: '123abcdef'
 
     click_button 'Sign up!'
 
-    expect(page).to have_current_path('/')
+    expect(current_path).to eq(root_path)
   end
 
   it 'unsuccessfully creates a user due to email' do
@@ -44,6 +45,7 @@ RSpec.describe 'users/new.html.erb', type: :feature do
     fill_in 'Name', with: 'John'
     fill_in 'Email', with: 'johndoe@example.com'
     fill_in 'Password', with: 'password'
+    fill_in 'Password Confirmation', with: 'password'
 
     click_button 'Sign up!'
 
