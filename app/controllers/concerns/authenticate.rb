@@ -14,6 +14,10 @@ module Authenticate
     cookies.encrypted.permanent[:app_session] = { value: app_session.to_h }
   end
 
+  def logged_in?
+    Current.user.present?
+  end
+
   private
   def authenticate
     Current.app_session = authenticate_using_cookie
@@ -32,5 +36,10 @@ module Authenticate
     User.authenticate_app_session(app_session, token)
   rescue NoMatchingPatternEror, ActiveRecord::RecordNotFound
     nil
+  end
+
+  def require_login
+    flash.now[:notice] = t("login_required")
+    render 'sessions/new', status: :unauthorized
   end
 end
