@@ -16,6 +16,7 @@ RSpec.describe SessionsController, type: :controller do
     end.to change { @user.app_sessions.count }.from(0).to(1)
 
     expect(response).to redirect_to(root_path)
+    expect(cookies[:app_session].empty?).to eq(false)
   end
 
   it 'renders error for login with incorrect credentials' do
