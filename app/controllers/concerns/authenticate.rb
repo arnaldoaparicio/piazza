@@ -1,7 +1,7 @@
 module Authenticate
   extend ActiveSupport::Concern
 
-  include do
+  included do
     before_action :authenticate
     before_action :require_login, unless: :logged_in?
 
@@ -44,8 +44,8 @@ module Authenticate
     data => { user_id:, app_session:, token: }
 
     user = User.find(user_id)
-    User.authenticate_app_session(app_session, token)
-  rescue NoMatchingPatternEror, ActiveRecord::RecordNotFound
+    user.authenticate_app_session(app_session, token)
+  rescue NoMatchingPatternError, ActiveRecord::RecordNotFound
     nil
   end
 
