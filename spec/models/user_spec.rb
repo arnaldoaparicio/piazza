@@ -93,7 +93,7 @@ RSpec.describe User, type: :model do
     it 'trys to authenticate with a token that does not exist and returns false' do
       @user = users(:jerry)
 
-      expect(@user.autheticate_app_session(50, 'token')).to eq(nil)
+      expect(@user.authenticate_app_session(50, 'token')).to eq(nil)
     end
   end
 end
